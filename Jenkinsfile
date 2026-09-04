@@ -77,12 +77,6 @@ pipeline {
         }
 
         stage('Deliver') {
-            agent {
-                docker {
-                    image 'python:3.11-slim'
-                    reuseNode true
-                }
-            }
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerHub',
@@ -98,7 +92,7 @@ pipeline {
             }
         }
 
-        /*stage('Deploy') {
+        stage('Deploy') {
             steps {
                 sh """
                 ssh 63.176.151.129
@@ -106,6 +100,6 @@ pipeline {
                 docker run -d --name nif-validator -p 80:9046 cfreire70/nif-validator
                 """
             }
-        }*/
+        }
     }
 }
