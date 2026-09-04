@@ -75,5 +75,37 @@ pipeline {
                 }
             }
         }
+
+        stage('Deliver') {
+            agent {
+                docker {
+                    image 'python:3.11-slim'
+                    reuseNode true
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerHub',
+                    usernameVariable: 'username',
+                    passwordVariable: 'password'
+                )]) {
+                    sh """
+                    docker login -u ${username} -p ${password}
+                    docker build -t ${username}/nif-validator .
+                    docker push ${username}/nif-validator
+                    """
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh """
+                ssh 63.176.151.129
+                docker pull ricamoreira005/nif-validator
+                docker run -d --name nif-validator -p 80:9046 cfreire70/nif-validator
+                """
+            }
+        }
     }
 }
