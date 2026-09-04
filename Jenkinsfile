@@ -98,7 +98,7 @@ pipeline {
                     sh """
                     ssh -o StrictHostKeyChecking=no redhat@3.73.64.187
                     docker pull ricamoreira005/nif-validator
-                    docker rm -f nif-validator && docker run -d --name nif-validator -p 80:9046 cfreire70/nif-validator
+                    docker rm -f nif-validator && docker run -d --name nif-validator -p 80:9046 ricamoreira005/nif-validator
                     """
                 }
                 
