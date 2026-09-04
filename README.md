@@ -24,3 +24,4 @@ Python NIF Validator
     ................................................
     image ttl.sh/xxxx-yyyy-nnnn-2a2222-4b44 is available for 1 hour
     
+By Ricardo Moreira
