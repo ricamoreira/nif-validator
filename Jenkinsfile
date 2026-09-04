@@ -94,11 +94,14 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh """
-                ssh 63.176.151.129
-                docker pull ricamoreira005/nif-validator
-                docker run -d --name nif-validator -p 80:9046 cfreire70/nif-validator
-                """
+                sshagent(credentials:['aws-rhel-key-20241125']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no redhat@3.73.64.187
+                    docker pull ricamoreira005/nif-validator
+                    docker rm -f nif-validator && docker run -d --name nif-validator -p 80:9046 cfreire70/nif-validator
+                    """
+                }
+                
             }
         }
     }
